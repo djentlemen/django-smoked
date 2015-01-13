@@ -1,0 +1,1 @@
+SECRET_KEY = 'must not be empty'
