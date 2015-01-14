@@ -1,22 +1,10 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-import pytest
 from django.core.management import call_command
 from django.utils.six import StringIO
-from smoked import register
 
 line = lambda s: s + '\n'
-
-
-@pytest.fixture
-def filled_registry(clean_registry, valid_test, invalid_test):
-    # Generate test suit
-    register(valid_test)
-    register(valid_test)
-    register(invalid_test)
-    register(valid_test)
-    register(invalid_test)
 
 
 def capture_command(*args, **kwargs):
