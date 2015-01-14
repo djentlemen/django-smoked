@@ -1,4 +1,10 @@
-import types
+# coding: utf-8
+from __future__ import unicode_literals
+from collections import namedtuple
+
+_registry = []
+
+SmokeTest = namedtuple('SmokeTest', 'func name description')
 
 
 def register(func=None, **kwargs):
@@ -45,4 +51,4 @@ def _register(func, name=None, description=None):
     The *real* register method responsible for adding smoke test
     into registry.
     """
-    pass
+    _registry.append(SmokeTest(func, name, description))

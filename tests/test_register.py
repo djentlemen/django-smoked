@@ -5,11 +5,19 @@ import pytest
 from mock import call
 
 from smoked import register
+from smoked.registry import _registry, SmokeTest
 
 
 @pytest.fixture
 def mocked_registry(mocker):
     return mocker.patch('smoked.registry._register')
+
+
+@pytest.fixture(autouse=True)
+def clean_registry():
+    """ Clean all registered smoke test at the beginning of each test func """
+    # Modify original list (instead of assigning empty list)
+    _registry[:] = []
 
 
 def test_register_lazy(mocked_registry):
@@ -57,3 +65,21 @@ def test_register_decorator_minimal(mocked_registry):
 
     mocked_registry.assert_called_with(
         func=check_func, name='check_func', description='Long story')
+
+
+def test_registry_fill_ad_hoc():
+    smoke_test = lambda: 42
+
+    register(smoke_test)
+    register(smoke_test, name='Smoke Test')
+    register(smoke_test, description='Help text')
+    register(smoke_test, name='Smoke Test', description='Help text')
+
+    assert len(_registry) == 4
+    assert all(isinstance(test, SmokeTest) for test in _registry)
+
+    first, second, third, fourth = _registry
+    assert first == SmokeTest(smoke_test, None, None)
+    assert second == SmokeTest(smoke_test, 'Smoke Test', None)
+    assert third == SmokeTest(smoke_test, None, 'Help text')
+    assert fourth == SmokeTest(smoke_test, 'Smoke Test', 'Help text')
