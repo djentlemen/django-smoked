@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from optparse import make_option
 
 import time
+from django import VERSION
 from django.core.management.base import NoArgsCommand
 from smoked import default_registry
 
@@ -36,9 +37,9 @@ class Command(NoArgsCommand):
         if options.get('dry_run'):
             count = len(default_registry.tests)
             if verbosity:
-                self.stdout.write('{0} smoke test(s) could be run'.format(count))
+                self.log('{0} smoke test(s) could be run'.format(count))
             else:
-                self.stdout.write(str(count))
+                self.log(str(count))
             return
 
         success = failure = 0
@@ -51,13 +52,13 @@ class Command(NoArgsCommand):
 
             if verbosity > 1:
                 output = 'Success' if positive else 'Fail!'
-                self.stdout.write('{0}... {1}'.format(result['name'], output))
+                self.log('{0}... {1}'.format(result['name'], output))
 
                 if not positive:
-                    self.stdout.write(str(result['error']))
+                    self.log(str(result['error']))
             else:
                 output = '.' if positive else 'F'
-                self.stdout.write(output, ending='')
+                self.log(output, ending='')
 
         stats = {
             'total': success + failure,
@@ -66,6 +67,13 @@ class Command(NoArgsCommand):
             'time': time.time() - start_time
         }
         if verbosity:
-            self.stdout.write(stats_msg.format(**stats))
+            self.log(stats_msg.format(**stats))
         else:
-            self.stdout.write('')  # print out new line after dots
+            self.log('')  # print out new line after dots
+
+    def log(self, msg='', ending='\n'):
+        # Backward compatability with Dj1.4
+        if VERSION[1] == 4:
+            self.stdout.write(msg + ending)
+        else:
+            self.stdout.write(msg, ending=ending)
