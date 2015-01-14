@@ -8,6 +8,11 @@ SmokeTest = namedtuple('SmokeTest', 'func name description')
 class Registry(object):
     _registry = []
 
+    @property
+    def tests(self):
+        """ List of all registered tests """
+        return self._registry
+
     def register(self, func=None, **kwargs):
         """
         Entry point for registering smoke tests. Accepts dotted path to smoke

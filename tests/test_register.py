@@ -84,3 +84,13 @@ def test_registry_fill_ad_hoc():
     assert second == SmokeTest(smoke_test, 'Smoke Test', None)
     assert third == SmokeTest(smoke_test, None, 'Help text')
     assert fourth == SmokeTest(smoke_test, 'Smoke Test', 'Help text')
+
+
+def test_registry_get_tests():
+    smoke_test = lambda: 42
+
+    register(smoke_test)
+    register(smoke_test, name='Smoke Test')
+    register(smoke_test, name='Smoke Test', description='Help text')
+
+    assert default_registry.tests == default_registry._registry
