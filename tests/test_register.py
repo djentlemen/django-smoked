@@ -13,13 +13,6 @@ def mocked_registry(mocker):
     return mocker.patch('smoked.registry.Registry._register')
 
 
-@pytest.fixture(autouse=True)
-def clean_registry():
-    """ Clean all registered smoke test at the beginning of each test func """
-    # Modify original list (instead of assigning empty list)
-    default_registry._registry[:] = []
-
-
 def test_register_lazy(mocked_registry):
     """ Register smoke test class from module path """
     register('mytest.SmokeTest')

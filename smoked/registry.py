@@ -6,7 +6,8 @@ SmokeTest = namedtuple('SmokeTest', 'func name description')
 
 
 class Registry(object):
-    _registry = []
+    def __init__(self):
+        self._registry = []
 
     @property
     def tests(self):
