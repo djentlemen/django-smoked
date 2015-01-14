@@ -40,6 +40,7 @@ setup(
     tests_require=[
         'pytest',
         'pytest-django',
+        'pytest-mock',
     ],
 
     classifiers=(
