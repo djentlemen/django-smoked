@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+
+{% for result in results %}
+<div class="result {{ result.error|yesno:'failure,success' }}">
+  <div class="name">{{ result.name }}</div>
+
+  {% if result.description %}
+    <div class="description">{{ result.description }}</div>
+  {% endif %}
+
+  {% if result.error %}
+    <div class="failure">{{ result.error }}</div>
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="stats">
+  <div class="success">Success: {{ success }}</div>
+  <div class="failure">Failure: {{ failure }}</div>
+  <div class="total">Total: {{ total }}</div>
+</div>
+
+</body>
+</html>
