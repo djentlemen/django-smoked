@@ -40,8 +40,26 @@ class DatabaseTest(SmokeTest):
 
  # Built-in test
  smoked.register('smoked.DatabaseTest')
+
  # Custom test
  smoked.register('myproject.MessageQueueTest')
+
+ # ad-hoc function
+ def smoke_test():
+     ...
+ smoked.register(smoke_test, name='Test my setup', description='...')
+
+ # ad-hoc function using decorator
+ @smoked.register(name='Verbose name', description='Long text')
+ def smoke_test():
+     ...
+
+ # default name and description
+ @smoked.register
+ def smoke_test():  # name='smoke_test'
+     """ Docstring will become description """
+     ...
+
 ```
 
 Test runner is trigger either by management command:
