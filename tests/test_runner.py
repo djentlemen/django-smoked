@@ -1,21 +1,5 @@
-import pytest
-from mock import Mock
-
 from smoked import register, Registry
 from smoked.runner import run_tests
-
-
-@pytest.fixture
-def valid_test():
-    test = Mock()
-    test.__name__ = 'Mocked Test'
-    return test
-
-
-@pytest.fixture
-def invalid_test(valid_test):
-    valid_test.side_effect = AssertionError('Failed test')
-    return valid_test
 
 
 def test_run_output(valid_test):
