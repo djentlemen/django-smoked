@@ -28,23 +28,34 @@ class Command(NoArgsCommand):
         )
 
     def handle_noargs(self, **options):
+        verbosity = int(options.get('verbosity', 1))
         start_time = time.time()
 
         if options.get('dry_run'):
             count = len(default_registry.tests)
-            self.stdout.write('{0} smoke test(s) could be run'.format(count))
+            if verbosity:
+                self.stdout.write('{0} smoke test(s) could be run'.format(count))
+            else:
+                self.stdout.write(str(count))
             return
 
         success = failure = 0
         for result in run_tests():
-            if 'error' in result:
-                failure += 1
-                output = 'F'
-            else:
+            positive = 'error' not in result
+            if positive:
                 success += 1
-                output = '.'
+            else:
+                failure += 1
 
-            self.stdout.write(output, ending='')
+            if verbosity > 1:
+                output = 'Success' if positive else 'Fail!'
+                self.stdout.write('{0}... {1}'.format(result['name'], output))
+
+                if not positive:
+                    self.stdout.write(str(result['error']))
+            else:
+                output = '.' if positive else 'F'
+                self.stdout.write(output, ending='')
 
         stats = {
             'total': success + failure,
@@ -52,4 +63,7 @@ class Command(NoArgsCommand):
             'failure': failure,
             'time': time.time() - start_time
         }
-        self.stdout.write(stats_msg.format(**stats))
+        if verbosity:
+            self.stdout.write(stats_msg.format(**stats))
+        else:
+            self.stdout.write('')  # print out new line after dots
