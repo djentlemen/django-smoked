@@ -4,20 +4,20 @@ from __future__ import unicode_literals
 import pytest
 from mock import call
 
-from smoked import register
-from smoked.registry import _registry, SmokeTest
+from smoked import register, default_registry
+from smoked.registry import SmokeTest
 
 
 @pytest.fixture
 def mocked_registry(mocker):
-    return mocker.patch('smoked.registry._register')
+    return mocker.patch('smoked.registry.Registry._register')
 
 
 @pytest.fixture(autouse=True)
 def clean_registry():
     """ Clean all registered smoke test at the beginning of each test func """
     # Modify original list (instead of assigning empty list)
-    _registry[:] = []
+    default_registry._registry[:] = []
 
 
 def test_register_lazy(mocked_registry):
@@ -75,10 +75,11 @@ def test_registry_fill_ad_hoc():
     register(smoke_test, description='Help text')
     register(smoke_test, name='Smoke Test', description='Help text')
 
-    assert len(_registry) == 4
-    assert all(isinstance(test, SmokeTest) for test in _registry)
+    assert len(default_registry._registry) == 4
+    assert all(isinstance(test, SmokeTest)
+               for test in default_registry._registry)
 
-    first, second, third, fourth = _registry
+    first, second, third, fourth = default_registry._registry
     assert first == SmokeTest(smoke_test, None, None)
     assert second == SmokeTest(smoke_test, 'Smoke Test', None)
     assert third == SmokeTest(smoke_test, None, 'Help text')
