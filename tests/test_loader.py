@@ -18,5 +18,6 @@ def test_testing_module_invalid(settings):
         loader.load_test_module()
 
 
-def test_testing_module_valid(settings):
+def test_testing_module_valid():
+    # No exception raised means successful test pass
     loader.load_test_module()
