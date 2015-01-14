@@ -15,11 +15,13 @@ Total: {total}
 Success: {success}
 Failure: {failure}
 --------
-Time: {time}
+Time: {time:.1f}s
 """
 
 
 class Command(NoArgsCommand):
+    help = 'Run all registered smoke tests'
+
     option_list = NoArgsCommand.option_list + (
         make_option(
             '-n', '--dry-run', dest='dry_run',
