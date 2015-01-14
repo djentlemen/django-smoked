@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/djentlemen/django-smoked.svg)](https://travis-ci.org/djentlemen/django-smoked)
+
 # django-smoked
 
 Smoke tests framework for Django Web Framework
