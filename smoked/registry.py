@@ -1,4 +1,7 @@
-def register(*args, **kwargs):
+import types
+
+
+def register(func=None, **kwargs):
     """
     Entry point for registering smoke tests. Accepts dotted path to smoke test,
     testing func or it can act as an decorator.
@@ -20,9 +23,21 @@ def register(*args, **kwargs):
     @register(name='Smoke Test', description='Explaining message')
     def smoke_test():
         pass
-
     """
-    pass
+
+    def wrap(inner_func):
+        _register(func=inner_func, **kwargs)
+        return inner_func
+
+    if not func:
+        return wrap
+
+    if callable(func) and func.__name__ != '<lambda>':
+        kwargs.setdefault('name', func.__name__)
+        kwargs.setdefault('description', func.__doc__)
+
+    _register(func=func, **kwargs)
+    return func
 
 
 def _register(func, name=None, description=None):
