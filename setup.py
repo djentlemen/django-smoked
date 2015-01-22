@@ -7,6 +7,11 @@ from setuptools.command.test import test as TestCommand
 
 from smoked import __version__
 
+test_requirements = [
+    'pytest',
+    'pytest-django',
+    'pytest-mock',
+]
 
 class PyTest(TestCommand):
     def finalize_options(self):
@@ -37,11 +42,10 @@ setup(
     ],
 
     cmdclass={'test': PyTest},
-    tests_require=[
-        'pytest',
-        'pytest-django',
-        'pytest-mock',
-    ],
+    tests_require=test_requirements,
+    extras_require={
+        'test': test_requirements,
+    },
 
     classifiers=(
         'Development Status :: 2 - Pre-Alpha',

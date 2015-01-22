@@ -32,12 +32,13 @@ matrix:
 install:
   - travis_retry pip install -r requirements.txt
   - travis_retry pip install $DJANGO
-  - travis_retry pip install .
+  - travis_retry pip install -e .
+  - travis_retry pip install "django-smoked[test]"
 
 script:
   - python --version
   - django-admin.py --version
   - py.test --cov smoked --cov-report term-missing -v tests/
 
-after_script:
+after_success:
   - coveralls
