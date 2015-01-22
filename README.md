@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/djentlemen/django-smoked.svg)](https://travis-ci.org/djentlemen/django-smoked)
+[![Coverage Status](https://coveralls.io/repos/djentlemen/django-smoked/badge.svg?branch=master)](https://coveralls.io/r/djentlemen/django-smoked?branch=master)
 
 # django-smoked
 
