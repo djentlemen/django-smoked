@@ -1,8 +1,8 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-SMOKE_TESTS = 'tests.smoke_tests.simple'
+SMOKE_TESTS = 'tests.functional.simple'
 
-ROOT_URLCONF = 'smoke_tests.urls'
+ROOT_URLCONF = 'functional.urls'
 INSTALLED_APPS = ['smoked']
 SECRET_KEY = 'must not be empty'
