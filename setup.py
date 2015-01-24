@@ -35,7 +35,7 @@ setup(
     long_description=open('README.md').read(),
     url='https://github.com/djentlemen/django-smoked',
 
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
     install_requires=[
         'django',
