@@ -3,7 +3,12 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.importlib import import_module
+
+try:
+    from importlib import import_module
+except ImportError:
+    # Py2.6,Py3.0 && Dj<1.9
+    from django.utils.importlib import import_module
 
 
 def load_test_module():
