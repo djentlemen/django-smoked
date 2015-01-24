@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import django
 from .registry import Registry
 
-__version__ = '0.1a'
+__version__ = '0.1-alpha.1'
 
 __all__ = ['default_registry', 'register']
 
