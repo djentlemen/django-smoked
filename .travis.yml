@@ -30,10 +30,10 @@ matrix:
       env: DJANGO="django<1.7"
 
 install:
-  - travis_retry pip install -r requirements.txt
   - travis_retry pip install $DJANGO
   - travis_retry pip install -e .
-  - travis_retry pip install "django-smoked[test]"
+  - travis_retry pip install "django-smoked[tests]"
+  - travis_retry pip install "django-smoked[qa]"
 
 script:
   - python --version

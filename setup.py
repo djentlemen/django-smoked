@@ -44,7 +44,11 @@ setup(
     cmdclass={'test': PyTest},
     tests_require=test_requirements,
     extras_require={
-        'test': test_requirements,
+        'tests': test_requirements,
+        'qa': [
+            'pytest-cov',
+            'coveralls'
+        ],
     },
 
     classifiers=(
