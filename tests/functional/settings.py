@@ -3,6 +3,6 @@ from __future__ import unicode_literals
 
 SMOKE_TESTS = 'tests.functional.simple'
 
-ROOT_URLCONF = 'functional.urls'
+ROOT_URLCONF = 'tests.functional.urls'
 INSTALLED_APPS = ['smoked']
 SECRET_KEY = 'must not be empty'
