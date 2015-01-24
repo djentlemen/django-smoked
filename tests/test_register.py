@@ -67,16 +67,20 @@ def test_registry_fill_ad_hoc():
     register(smoke_test, name='Smoke Test')
     register(smoke_test, description='Help text')
     register(smoke_test, name='Smoke Test', description='Help text')
+    register(smoke_test, params={'url': 'http://example.com'})
 
-    assert len(default_registry._registry) == 4
+    assert len(default_registry._registry) == 5
     assert all(isinstance(test, SmokeTest)
                for test in default_registry._registry)
 
-    first, second, third, fourth = default_registry._registry
-    assert first == SmokeTest(smoke_test, None, None)
-    assert second == SmokeTest(smoke_test, 'Smoke Test', None)
-    assert third == SmokeTest(smoke_test, None, 'Help text')
-    assert fourth == SmokeTest(smoke_test, 'Smoke Test', 'Help text')
+    first, second, third, fourth, fifth = default_registry._registry
+    # SmokeTest(func, params, name, description)
+    assert first == SmokeTest(smoke_test, None, None, None)
+    assert second == SmokeTest(smoke_test, None, 'Smoke Test', None)
+    assert third == SmokeTest(smoke_test, None, None, 'Help text')
+    assert fourth == SmokeTest(smoke_test, None, 'Smoke Test', 'Help text')
+    assert fifth == SmokeTest(smoke_test, params={'url': 'http://example.com'},
+                              name=None, description=None)
 
 
 def test_registry_get_tests():

@@ -11,8 +11,9 @@ def run_tests(registry=None):
             'description': test.description,
         }
 
+        params = test.params or {}
         try:
-            test.func()
+            test.func(**params)
         except Exception as e:
             output['error'] = e
 

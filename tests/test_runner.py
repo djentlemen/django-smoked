@@ -1,3 +1,7 @@
+# coding: utf-8
+from __future__ import unicode_literals
+from mock import call
+
 from smoked import register, Registry
 from smoked.runner import run_tests
 
@@ -5,7 +9,7 @@ from smoked.runner import run_tests
 def test_run_output(valid_test):
     valid_test.__doc__ = 'Mocked description'
 
-    register(valid_test)
+    register(valid_test, params={'key': 'value'})
     results = list(run_tests())
 
     expected_output = {
@@ -14,6 +18,7 @@ def test_run_output(valid_test):
     }
 
     assert valid_test.called
+    assert valid_test.call_args == call(key='value')
     assert len(results) == 1
     assert results[0] == expected_output
 

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from collections import namedtuple
 
-SmokeTest = namedtuple('SmokeTest', 'func name description')
+SmokeTest = namedtuple('SmokeTest', 'func params name description')
 
 
 class Registry(object):
@@ -52,9 +52,9 @@ class Registry(object):
         self._register(func=func, **kwargs)
         return func
 
-    def _register(self, func, name=None, description=None):
+    def _register(self, func, params=None, name=None, description=None):
         """
         The *real* register method responsible for adding smoke test
         into registry.
         """
-        self._registry.append(SmokeTest(func, name, description))
+        self._registry.append(SmokeTest(func, params, name, description))
