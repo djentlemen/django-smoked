@@ -24,7 +24,7 @@ class PyTest(TestCommand):
         sys.exit(pytest.main(self.test_args))
 
 setup(
-    name='django_smoked',
+    name='django-smoked',
     version=__version__,
     license='MIT',
 
