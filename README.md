@@ -13,19 +13,17 @@ Every successful deployment of an application must be followed by series of test
 
 Compared to unit/integration/functional/performance/etc tests which runs in an isolated environment, smoke tests are designed to check safely the production environment. These tests only check the fundemantal functionality, ex. email sending is working, app is able to connect to the database, background queue accepts task, etc.
 
-## Idea
+The goal is to create framework for **reusable** smoke tests which could be easily shared among projects.
 
-Create framework for **reusable** smoke tests which could be easily shared among projects.
+## Work in progress
 
-Each test is defined by a name and an action to be taken:
+Smoke tests are simple function, which raise exception (ex. `AssertionError`)
+on failures:
 
 ```python
-class DatabaseTest(SmokeTest):
-    name = 'Database test'
-    description = 'Check all database connection are valid'
-
-    def test(self):
-        ...
+def url_available(url=None, expected_code=200):
+    """ Check availability (HTTP response code) of single resource """
+    assert urlopen(url).getcode() == expected_code
 ```
  
  Smoke tests are registered manually in custom module:
@@ -40,10 +38,8 @@ class DatabaseTest(SmokeTest):
  import smoked
 
  # Built-in test
- smoked.register('smoked.DatabaseTest')
-
- # Custom test
- smoked.register('myproject.MessageQueueTest')
+ from smoked.test.url import url_available
+ smoked.register(url_available)
 
  # ad-hoc function
  def smoke_test():
@@ -72,7 +68,28 @@ Test runner is trigger either by management command:
 or an API call:
 
 ```shell
-curl -d"TOKEN=VerySecretToken" http://myproject.io/_smoked/
+curl http://myproject.io/_smoked/
+```
+
+## Available built-in tests
+
+`smoked.test.url.url_available`
+
+Check response of single URL and compare status code:
+
+Params:
+*url* URL to be requested
+*code* HTTP status code of response (default: 200)
+
+```python
+import smoked
+from smoked.test.url import url_available
+
+# Check HTTP 200 response at https://github.com
+smoked.register(url_available, params={'url': 'https://github.com'})
+
+# Check HTTP 302 response
+smoked.register(url_available, params={'url': 'https://github.com', 'code': 302})
 ```
 
 ## Licence
