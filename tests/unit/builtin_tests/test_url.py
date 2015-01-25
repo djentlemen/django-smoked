@@ -46,3 +46,16 @@ class TestUrl:
             url_available(url)
         except AssertionError as e:
             pytest.fail(e.message)
+
+    def test_nonexisting_url(self):
+        try:
+            url_available('http://google.com/doesnnotexist', expected_code=404)
+        except AssertionError as e:
+            pytest.fail(e.message)
+
+    def test_nonexisting_domain(self):
+        try:
+            url_available('http://reallydoesnotexist.com/', expected_code=404)
+        except AssertionError as e:
+            pytest.fail(e.message)
+
