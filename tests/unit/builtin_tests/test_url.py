@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import pytest
 from collections import namedtuple
 from mock import Mock
+from django.utils.six.moves.urllib.error import URLError
 
 from smoked.test.url import url_available
 
@@ -54,8 +55,8 @@ class TestUrl:
             pytest.fail(e.message)
 
     def test_nonexisting_domain(self):
-        try:
+        """
+        Non-existing domain still raises exception
+        """
+        with pytest.raises(URLError):
             url_available('http://reallydoesnotexist.com/', expected_code=404)
-        except AssertionError as e:
-            pytest.fail(e.message)
-
